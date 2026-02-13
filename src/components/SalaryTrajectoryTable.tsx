@@ -11,7 +11,7 @@ function formatCurrency(value: number): string {
 }
 
 function parseNumber(raw: string): number {
-  const cleaned = raw.replace(/[^0-9.\-]/g, '')
+  const cleaned = raw.replace(/[^0-9.-]/g, '')
   const parsed = parseFloat(cleaned)
   return isNaN(parsed) ? 0 : parsed
 }

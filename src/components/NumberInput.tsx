@@ -18,7 +18,7 @@ function formatWithCommas(value: number): string {
 }
 
 function parseNumericInput(raw: string): number {
-  const cleaned = raw.replace(/[^0-9.\-]/g, '')
+  const cleaned = raw.replace(/[^0-9.-]/g, '')
   const parsed = parseFloat(cleaned)
   return isNaN(parsed) ? 0 : parsed
 }
