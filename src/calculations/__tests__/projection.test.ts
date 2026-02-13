@@ -1,6 +1,7 @@
 // @vitest-environment node
 import { describe, it, expect } from 'vitest'
-import { calculateStayYearEarnings, calculateSwitchYearEarnings, calculateTransitionCost } from '../projection'
+import { calculateStayYearEarnings, calculateSwitchYearEarnings, calculateTransitionCost, calculateProjection } from '../projection'
+import { DEFAULT_INPUTS } from '../defaults'
 
 describe('calculateStayYearEarnings', () => {
   const currentCareer = {
@@ -76,5 +77,49 @@ describe('calculateSwitchYearEarnings', () => {
     const result = calculateSwitchYearEarnings(newCareer, 5, loanAnnualPayment, false)
     const salary = 78000 * Math.pow(1.03, 2)
     expect(result).toBeCloseTo(salary + 14000 + 5000, 0)
+  })
+})
+
+describe('calculateProjection', () => {
+  it('returns correct number of yearly projections', () => {
+    const result = calculateProjection(DEFAULT_INPUTS)
+    expect(result.yearlyProjections).toHaveLength(DEFAULT_INPUTS.projectionSettings.timeHorizonYears)
+  })
+
+  it('year 1 stay cumulative is positive', () => {
+    const result = calculateProjection(DEFAULT_INPUTS)
+    expect(result.yearlyProjections[0].stayCumulative).toBeGreaterThan(0)
+  })
+
+  it('year 1 switch cumulative is less than stay (transition costs)', () => {
+    const result = calculateProjection(DEFAULT_INPUTS)
+    expect(result.yearlyProjections[0].switchCumulative).toBeLessThan(
+      result.yearlyProjections[0].stayCumulative
+    )
+  })
+
+  it('calculates totalTransitionCost including loan interest', () => {
+    const result = calculateProjection(DEFAULT_INPUTS)
+    expect(result.totalTransitionCost).toBeGreaterThan(0)
+  })
+
+  it('returns null breakEvenYear when new career never catches up', () => {
+    const inputs = {
+      ...DEFAULT_INPUTS,
+      newCareer: {
+        ...DEFAULT_INPUTS.newCareer,
+        salaryTrajectory: [{ year: 1, salary: 30000 }],
+        defaultRaisePercent: 1,
+      },
+      projectionSettings: { ...DEFAULT_INPUTS.projectionSettings, timeHorizonYears: 5 },
+    }
+    const result = calculateProjection(inputs)
+    expect(result.breakEvenYear).toBeNull()
+  })
+
+  it('provides both nominal and real cumulative values', () => {
+    const result = calculateProjection(DEFAULT_INPUTS)
+    const year1 = result.yearlyProjections[0]
+    expect(year1.stayNominalCumulative).toBeGreaterThanOrEqual(year1.stayCumulative)
   })
 })
