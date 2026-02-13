@@ -47,9 +47,11 @@ export function NumberInput({
 
   const handleBlur = useCallback(() => {
     setFocused(false)
-    const parsed = parseNumericInput(rawValue)
+    let parsed = parseNumericInput(rawValue)
+    if (min !== undefined) parsed = Math.max(min, parsed)
+    if (max !== undefined) parsed = Math.min(max, parsed)
     onChange(parsed)
-  }, [rawValue, onChange])
+  }, [rawValue, onChange, min, max])
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -105,7 +107,7 @@ export function NumberInput({
         )}
       </div>
       {error && (
-        <p className="mt-1 text-xs text-red-400">{error}</p>
+        <p className="mt-1 text-xs text-red-400" role="alert">{error}</p>
       )}
     </div>
   )

@@ -40,6 +40,7 @@ export function CollapsibleSection({
       <button
         type="button"
         onClick={toggle}
+        aria-expanded={isOpen}
         className="flex w-full items-center justify-between px-4 py-3 text-left transition-colors duration-200 hover:bg-slate-800/40 rounded-tr-lg"
       >
         <h3 className="font-display text-base font-semibold text-slate-200">

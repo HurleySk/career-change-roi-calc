@@ -202,6 +202,7 @@ export function ProjectionChart({ results }: ProjectionChartProps) {
               name="Career Switch"
               fill="url(#gradSwitch)"
               stroke="none"
+              legendType="none"
               animationDuration={800}
               animationEasing="ease-in-out"
             />
@@ -211,6 +212,7 @@ export function ProjectionChart({ results }: ProjectionChartProps) {
               name="Stay Put"
               fill="url(#gradStay)"
               stroke="none"
+              legendType="none"
               animationDuration={800}
               animationEasing="ease-in-out"
             />

@@ -64,7 +64,7 @@ export function SalaryTrajectoryTable({
           <tbody>
             {entries.map((entry, index) => (
               <tr
-                key={entry.year}
+                key={index}
                 className="border-b border-slate-700/20 last:border-b-0 hover:bg-slate-800/30 transition-colors"
               >
                 <td className="px-3 py-2 text-slate-300 font-medium">
@@ -76,6 +76,7 @@ export function SalaryTrajectoryTable({
                     <input
                       type="text"
                       inputMode="decimal"
+                      aria-label={`Year ${entry.year} salary`}
                       value={formatCurrency(entry.salary)}
                       onChange={(e) =>
                         updateEntry(index, parseNumber(e.target.value))

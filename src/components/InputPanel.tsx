@@ -8,37 +8,37 @@ import { useCallback } from 'react'
 
 interface InputPanelProps {
   inputs: CalculatorInputs
-  onChange: (inputs: CalculatorInputs) => void
+  onChange: (inputs: CalculatorInputs | ((prev: CalculatorInputs) => CalculatorInputs)) => void
   errors: ValidationError[]
 }
 
 export function InputPanel({ inputs, onChange, errors }: InputPanelProps) {
   const handleCurrentCareerChange = useCallback(
     (currentCareer: CalculatorInputs['currentCareer']) => {
-      onChange({ ...inputs, currentCareer })
+      onChange((prev: CalculatorInputs) => ({ ...prev, currentCareer }))
     },
-    [inputs, onChange],
+    [onChange],
   )
 
   const handleTransitionCostsChange = useCallback(
     (transitionCosts: CalculatorInputs['transitionCosts']) => {
-      onChange({ ...inputs, transitionCosts })
+      onChange((prev: CalculatorInputs) => ({ ...prev, transitionCosts }))
     },
-    [inputs, onChange],
+    [onChange],
   )
 
   const handleNewCareerChange = useCallback(
     (newCareer: CalculatorInputs['newCareer']) => {
-      onChange({ ...inputs, newCareer })
+      onChange((prev: CalculatorInputs) => ({ ...prev, newCareer }))
     },
-    [inputs, onChange],
+    [onChange],
   )
 
   const handleProjectionSettingsChange = useCallback(
     (projectionSettings: CalculatorInputs['projectionSettings']) => {
-      onChange({ ...inputs, projectionSettings })
+      onChange((prev: CalculatorInputs) => ({ ...prev, projectionSettings }))
     },
-    [inputs, onChange],
+    [onChange],
   )
 
   return (

@@ -82,6 +82,7 @@ export function ProfileManager({
 
       {/* Dropdown */}
       <select
+        aria-label="Saved profiles"
         value={selectedId}
         onChange={(e) => {
           setSelectedId(e.target.value)
